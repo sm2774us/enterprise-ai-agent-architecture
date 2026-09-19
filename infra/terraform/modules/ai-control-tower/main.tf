@@ -6,8 +6,9 @@
 # services/control-tower/app/governance/policy.py).
 
 resource "aws_s3_bucket" "audit_log" {
-  bucket = "${var.name_prefix}-ai-control-tower-audit-log"
-  tags   = var.tags
+  bucket              = "${var.name_prefix}-ai-control-tower-audit-log"
+  object_lock_enabled = true
+  tags                = var.tags
 }
 
 resource "aws_s3_bucket_versioning" "audit_log" {
@@ -25,6 +26,11 @@ resource "aws_s3_bucket_object_lock_configuration" "audit_log" {
       days = var.audit_retention_days
     }
   }
+
+  # Object Lock configuration cannot be applied until versioning is active
+  # on the bucket -- AWS rejects the API call otherwise even though nothing
+  # here references the versioning resource's attributes directly.
+  depends_on = [aws_s3_bucket_versioning.audit_log]
 }
 
 resource "aws_sns_topic" "governance_alerts" {

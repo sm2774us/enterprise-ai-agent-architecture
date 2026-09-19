@@ -28,10 +28,10 @@ module "network" {
 }
 
 module "ai_control_tower" {
-  source                = "../../modules/ai-control-tower"
-  name_prefix           = "snow-ai-dev"
-  audit_retention_days  = 90
-  tags                  = local.tags
+  source               = "../../modules/ai-control-tower"
+  name_prefix          = "snow-ai-dev"
+  audit_retention_days = 90
+  tags                 = local.tags
 }
 
 locals {
