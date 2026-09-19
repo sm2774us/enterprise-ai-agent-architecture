@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-tower
+  labels:
+    app: control-tower
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: control-tower
+  template:
+    metadata:
+      labels:
+        app: control-tower
+    spec:
+      containers:
+        - name: control-tower
+          image: servicenow-showcase/control-tower:latest
+          ports:
+            - containerPort: 8001
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8001
+            initialDelaySeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8001
+            initialDelaySeconds: 5
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: control-tower
+spec:
+  selector:
+    app: control-tower
+  ports:
+    - port: 8001
+      targetPort: 8001

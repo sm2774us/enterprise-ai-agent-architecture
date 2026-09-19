@@ -1,0 +1,5 @@
+# Every service change requires review — mirrors ServiceNow's expectation
+# that a Staff engineer sets and enforces review standards, not just writes code.
+/services/ @shaikat
+/infra/ @shaikat
+/.github/ @shaikat

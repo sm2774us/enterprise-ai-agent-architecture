@@ -1,0 +1,19 @@
+services:
+  agent-orchestrator:
+    build: ./services/agent-orchestrator
+    ports: ["8000:8000"]
+    environment:
+      - CONTROL_TOWER_URL=http://control-tower:8001
+    depends_on: [control-tower]
+
+  control-tower:
+    build: ./services/control-tower
+    ports: ["8001:8001"]
+
+  mcp-a2a-gateway:
+    build: ./services/mcp-a2a-gateway
+    ports: ["8002:8002"]
+
+  llm-gateway:
+    build: ./services/llm-gateway
+    ports: ["8003:8003"]

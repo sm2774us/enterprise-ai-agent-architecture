@@ -1,0 +1,63 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: check-json
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+        files: ^services/.*\.py$
+      - id: ruff-format
+        files: ^services/.*\.py$
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        name: mypy (agent-orchestrator)
+        files: ^services/agent-orchestrator/app/.*\.py$
+        args: ["--config-file=services/agent-orchestrator/pyproject.toml"]
+        additional_dependencies: ["pydantic>=2.8.0", "fastapi>=0.115.0"]
+        pass_filenames: true
+      - id: mypy
+        name: mypy (control-tower)
+        files: ^services/control-tower/app/.*\.py$
+        args: ["--config-file=services/control-tower/pyproject.toml"]
+        additional_dependencies: ["pydantic>=2.8.0", "fastapi>=0.115.0"]
+        pass_filenames: true
+      - id: mypy
+        name: mypy (mcp-a2a-gateway)
+        files: ^services/mcp-a2a-gateway/app/.*\.py$
+        args: ["--config-file=services/mcp-a2a-gateway/pyproject.toml"]
+        additional_dependencies: ["pydantic>=2.8.0", "fastapi>=0.115.0"]
+        pass_filenames: true
+      - id: mypy
+        name: mypy (llm-gateway)
+        files: ^services/llm-gateway/app/.*\.py$
+        args: ["--config-file=services/llm-gateway/pyproject.toml"]
+        additional_dependencies: ["pydantic>=2.8.0", "fastapi>=0.115.0", "numpy>=1.26.0"]
+        pass_filenames: true
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.96.1
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.12.1b3
+    hooks:
+      - id: hadolint
+        files: Dockerfile$
+        args: ["--failure-threshold=warning"]

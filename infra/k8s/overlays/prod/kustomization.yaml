@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: snow-ai-prod
+resources:
+  - ../../base
+replicas:
+  - name: agent-orchestrator
+    count: 3
+  - name: control-tower
+    count: 3
+  - name: mcp-a2a-gateway
+    count: 2
+  - name: llm-gateway
+    count: 2

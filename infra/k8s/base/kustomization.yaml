@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - agent-orchestrator.yaml
+  - control-tower.yaml
+  - mcp-a2a-gateway.yaml
+  - llm-gateway.yaml
